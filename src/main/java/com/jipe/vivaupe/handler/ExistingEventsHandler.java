@@ -37,6 +37,7 @@ public class ExistingEventsHandler implements RequestHandler{
         return input.getResponseBuilder()
                 .withSpeech(speechText)
                 .withSimpleCard("HelloWorld", speechText)
+                .withReprompt(speechText)
                 .build();
     }
     
