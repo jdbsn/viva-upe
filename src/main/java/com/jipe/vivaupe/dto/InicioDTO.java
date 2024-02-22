@@ -6,12 +6,13 @@ import lombok.RequiredArgsConstructor;
 
 @Data
 @RequiredArgsConstructor
-public class EventoDTO {
+public class InicioDTO {
 
-    @JsonProperty("summary")
-    private String nome;
+    @JsonProperty("dateTime")
+    private String hora;
 
-    @JsonProperty("start")
-    private InicioDTO hora;
+    @JsonProperty("timeZone")
+    private String fuso;
+
 
 }
