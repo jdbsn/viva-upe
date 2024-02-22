@@ -6,14 +6,15 @@ import com.amazon.ask.model.RequestEnvelope;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.amazon.ask.request.Predicates;
-import com.jipe.vivaupe.service.EventoService;
+import com.jipe.vivaupe.dto.EventoDTO;
+import com.jipe.vivaupe.util.HttpRequestUtil;
+import com.jipe.vivaupe.util.Util;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 public class HandlerTeste implements RequestHandler {
-
-    EventoService service = new EventoService();
 
     @Override
     public boolean canHandle(HandlerInput input) {
@@ -24,15 +25,14 @@ public class HandlerTeste implements RequestHandler {
     public Optional<Response> handle(HandlerInput input) {
         RequestEnvelope envelope = input.getRequestEnvelope();
 
-        Map<String, Slot> slots = service.pegarSlots(envelope);
-
+        Map<String, Slot> slots = Util.pegarSlots(envelope);
         String data = slots.get("data").getValue();
 
-        String dataFormatada = service.converterData(data);
+        String dataFormatada = Util.converterData(data);
+        List<EventoDTO> eventos = HttpRequestUtil.fazerRequisicao(dataFormatada);
 
-        service.fazerRequisicao(dataFormatada);
+        String speechText = "Eventos: ";
 
-        String speechText = "teste";
         return input.getResponseBuilder()
                 .withSpeech(speechText)
                 .withSimpleCard("HelloWorld", speechText)
