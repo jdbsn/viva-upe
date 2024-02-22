@@ -1,24 +1,25 @@
 package com.jipe.vivaupe.handler;
 
+import java.util.Map;
+import java.util.Optional;
+
 import com.amazon.ask.dispatcher.request.handler.HandlerInput;
 import com.amazon.ask.dispatcher.request.handler.RequestHandler;
 import com.amazon.ask.model.RequestEnvelope;
 import com.amazon.ask.model.Response;
 import com.amazon.ask.model.Slot;
 import com.amazon.ask.request.Predicates;
-import com.jipe.vivaupe.dto.EventoDTO;
-import com.jipe.vivaupe.util.HttpRequestUtil;
+import com.jipe.vivaupe.service.EventoService;
 import com.jipe.vivaupe.util.Util;
 
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
-public class HandlerTeste implements RequestHandler {
+public class ExistingEventsHandler implements RequestHandler{
+
+    EventoService service = new EventoService();
 
     @Override
     public boolean canHandle(HandlerInput input) {
-        return input.matches(Predicates.intentName("TesteIntent"));
+        return input.matches(Predicates.intentName("ExistingEventsIntent"));
     }
 
     @Override
@@ -26,17 +27,16 @@ public class HandlerTeste implements RequestHandler {
         RequestEnvelope envelope = input.getRequestEnvelope();
 
         Map<String, Slot> slots = Util.pegarSlots(envelope);
+
         String data = slots.get("data").getValue();
 
         String dataFormatada = Util.converterData(data);
-        List<EventoDTO> eventos = HttpRequestUtil.fazerRequisicao(dataFormatada);
 
-        String speechText = "Eventos: ";
-
+        String speechText = service.existingEvents(dataFormatada);
         return input.getResponseBuilder()
                 .withSpeech(speechText)
                 .withSimpleCard("HelloWorld", speechText)
                 .build();
     }
-
+    
 }
