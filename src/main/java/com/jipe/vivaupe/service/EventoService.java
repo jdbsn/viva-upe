@@ -24,7 +24,6 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class EventoService {
-
     private static final String URL = "https://www.googleapis.com/calendar/v3/calendars/c_b1beca7a002c4b4065fd6fd4b34d45c0cdd2248a0dd075be338604d565f4c506@group.calendar.google.com/events?key=AIzaSyB1qRSThLWj1gdX3KaI7pPzdNwHZCre3bA&maxResults=4&timeMin=";
     private final CloseableHttpClient httpClient = HttpClients.createDefault();
     private HttpGet request = new HttpGet();
@@ -89,5 +88,47 @@ public class EventoService {
         // Como o queryParam pode ser vazio, não tem problema.
         return "";
     }
+
+    /**
+     * @param data
+     * @return
+     */
+    public String existingEvents(String data){
+        try {
+            HttpEntity resposta = httpClient.execute(request).getEntity();
+
+            String resultado = EntityUtils.toString(resposta);
+
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            JsonNode rootNode = objectMapper.readTree(resultado);
+
+            JsonNode itemsNode = rootNode.get("items");
+
+            System.out.println(itemsNode.toString());
+
+            objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+            List<EventoDTO> evento = objectMapper.readValue(itemsNode.toString(),  new TypeReference<List<EventoDTO>>(){});
+
+            List<String> eventos = new ArrayList<>();
+
+            evento.forEach(e -> eventos.add(e.getNome()));
+
+            if (eventos.size() > 1) {
+                return "Os eventos de " + data + " são " + eventos.toString();
+            } else if (eventos.size() == 1) {
+                return "O único evento de " + data + " é " + eventos.toString();
+            } else{
+                return "Não existem eventos na UPE em " + data;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "Ops, houve algum erro. Tente de novo";
+
+    }
+
 
 }

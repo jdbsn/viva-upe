@@ -11,6 +11,7 @@ public class VivaUPEServlet extends SkillServlet {
         super(getSkill());
     }
 
+    @SuppressWarnings("unchecked")
     private static Skill getSkill() {
         return Skills.standard()
                 .addRequestHandlers(
@@ -19,7 +20,8 @@ public class VivaUPEServlet extends SkillServlet {
                         new FallbackIntentHandler(),
                         new LaunchRequestHandler(),
                         new SessionEndedRequestHandler(),
-                        new HandlerTeste())
+                        new HandlerTeste(),
+                        new ExistingEventsHandler())
                 .build();
     }
 
