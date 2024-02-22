@@ -3,6 +3,7 @@ package com.jipe.vivaupe.service;
 
 import com.jipe.vivaupe.dto.EventoDTO;
 import com.jipe.vivaupe.util.HttpRequestUtil;
+import com.jipe.vivaupe.util.Util;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.stereotype.Service;
@@ -20,7 +21,8 @@ public class EventoService {
      */
     public String existingEvents(String data){
         try {
-            List<EventoDTO> evento = HttpRequestUtil.fazerRequisicao(data);
+            String dataFormatada = Util.converterData(data);
+            List<EventoDTO> evento = HttpRequestUtil.fazerRequisicao(dataFormatada);
 
             List<String> eventos = new ArrayList<>();
 

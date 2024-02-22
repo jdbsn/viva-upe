@@ -27,12 +27,9 @@ public class ExistingEventsHandler implements RequestHandler{
         RequestEnvelope envelope = input.getRequestEnvelope();
 
         Map<String, Slot> slots = Util.pegarSlots(envelope);
-
         String data = slots.get("data").getValue();
 
-        String dataFormatada = Util.converterData(data);
-
-        String speechText = service.existingEvents(dataFormatada);
+        String speechText = service.existingEvents(data);
         return input.getResponseBuilder()
                 .withSpeech(speechText)
                 .withSimpleCard("HelloWorld", speechText)
