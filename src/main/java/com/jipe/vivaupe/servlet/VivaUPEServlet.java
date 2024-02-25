@@ -20,7 +20,8 @@ public class VivaUPEServlet extends SkillServlet {
                         new FallbackIntentHandler(),
                         new LaunchRequestHandler(),
                         new SessionEndedRequestHandler(),
-                        new ExistingEventsHandler())
+                        new ExistingEventsHandler(),
+                        new DetailsEventsHandler())
                 .build();
     }
 

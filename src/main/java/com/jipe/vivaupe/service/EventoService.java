@@ -21,7 +21,7 @@ public class EventoService {
      */
     public String existingEvents(String data){
         try {
-            String dataFormatada = Util.converterData(data);
+            String dataFormatada = "&timeMin=" + Util.converterData(data);
             List<EventoDTO> evento = HttpRequestUtil.fazerRequisicao(dataFormatada);
 
             List<String> eventos = new ArrayList<>();
@@ -41,6 +41,25 @@ public class EventoService {
         }
         return "Ops, houve algum erro. Tente de novo";
 
+    }
+    public String detailingEvents(String events){
+        try{
+            String nome = "&q=" + events;
+            List<EventoDTO> eventos = HttpRequestUtil.fazerRequisicao(nome);
+
+            System.out.println(events);
+
+            if (!eventos.isEmpty()){
+                EventoDTO evento = eventos.get(0);
+                return ("O evento: "+ evento.getNome()+ ". Na data: "+ evento.getHora().getHora().substring(0, 10)
+                        + ". Possui a seguinte descrição: " + evento.getDescricao());
+            }else{
+                return ("Não encontrei "+ events + " registrado no google Calendar da U P E .");
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+        return "Ops, houve algum erro. Tente de novo";
     }
 
 

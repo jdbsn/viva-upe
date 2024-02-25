@@ -17,12 +17,12 @@ public class HttpRequestUtil {
 
     private static final String URL = "https://www.googleapis.com/calendar/v3/calendars/" +
             "c_b1beca7a002c4b4065fd6fd4b34d45c0cdd2248a0dd075be338604d565f4c506@group.calendar.google.com/" +
-            "events?key=AIzaSyB1qRSThLWj1gdX3KaI7pPzdNwHZCre3bA&maxResults=4&timeMin=";
+            "events?key=AIzaSyB1qRSThLWj1gdX3KaI7pPzdNwHZCre3bA";
     private HttpGet request = new HttpGet();
     private final CloseableHttpClient httpClient = HttpClients.createDefault();
 
-    public List<EventoDTO> fazerRequisicao(String data) {
-        request.setURI(URI.create(URL + data));
+    public List<EventoDTO> fazerRequisicao(String parametroDePesquisa) {
+        request.setURI(URI.create(URL + parametroDePesquisa));
         request.addHeader("accept", "application/json");
 
         try {
@@ -31,7 +31,7 @@ public class HttpRequestUtil {
 
             List<EventoDTO> eventos = Util.converterParaDto(resultado);
 
-            System.out.println(eventos.toString());
+            System.out.println(resultado);
 
             return eventos;
         } catch (Exception e) {

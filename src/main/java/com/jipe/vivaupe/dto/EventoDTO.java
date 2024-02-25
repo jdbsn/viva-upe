@@ -14,4 +14,7 @@ public class EventoDTO {
     @JsonProperty("start")
     private InicioDTO hora;
 
+    @JsonProperty("description")
+    private String descricao;
+
 }
