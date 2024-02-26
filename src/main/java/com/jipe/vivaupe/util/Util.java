@@ -16,9 +16,13 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @UtilityClass
 public class Util {
+
+    private static final Logger logger = Logger.getLogger(Util.class.getName());
 
     public Map<String, Slot> pegarSlots(RequestEnvelope envelope) {
         if (envelope.getRequest() instanceof IntentRequest intentRequest) {
@@ -36,11 +40,9 @@ public class Util {
 
             String horaFormatada = data + "T" + horaMinuto + ":00" + "-03:00";
 
-            System.out.println(horaFormatada);
-
             return horaFormatada;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, "Ocorreu um erro no método converterData().",e);
         }
         // Como o queryParam pode ser vazio, não tem problema.
         return "";
@@ -63,8 +65,9 @@ public class Util {
 
             return eventos;
         } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
+            logger.log(Level.WARNING, "Ocorreu um erro no método converterParaDto().",e);
         }
+        return Collections.emptyList();
     }
 
 }

@@ -10,10 +10,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Service
 @RequiredArgsConstructor
 public class EventoService {
+
+    private static final Logger logger = Logger.getLogger(EventoService.class.getName());
 
     /**
      * @param data
@@ -37,11 +41,12 @@ public class EventoService {
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, "Ocorreu um erro no método existingEvents().", e);
         }
         return "Ops, houve algum erro. Tente de novo";
 
     }
+
     public String detailingEvents(String events){
         try{
             String nome = "&q=" + events;
@@ -57,10 +62,9 @@ public class EventoService {
                 return ("Não encontrei "+ events + " registrado no google Calendar da U P E .");
             }
         } catch (Exception e){
-            e.printStackTrace();
+            logger.log(Level.WARNING, "Ocorreu um erro no método detailingEvents().", e);
         }
         return "Ops, houve algum erro. Tente de novo";
     }
-
 
 }

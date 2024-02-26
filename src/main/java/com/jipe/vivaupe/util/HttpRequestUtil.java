@@ -11,10 +11,13 @@ import org.apache.http.util.EntityUtils;
 import java.net.URI;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @UtilityClass
 public class HttpRequestUtil {
 
+    private static final Logger logger = Logger.getLogger(HttpRequestUtil.class.getName());
     private static final String URL = "https://www.googleapis.com/calendar/v3/calendars/" +
             "c_b1beca7a002c4b4065fd6fd4b34d45c0cdd2248a0dd075be338604d565f4c506@group.calendar.google.com/" +
             "events?key=AIzaSyB1qRSThLWj1gdX3KaI7pPzdNwHZCre3bA";
@@ -35,7 +38,7 @@ public class HttpRequestUtil {
 
             return eventos;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.log(Level.WARNING, "Ocorreu um erro no método fazerRequisicao().",e);
         }
 
         return Collections.emptyList();
