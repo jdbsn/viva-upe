@@ -34,15 +34,20 @@ public class Util {
     public String converterData(String data) {
         try {
             LocalDateTime atual = LocalDateTime.now();
+            LocalDateTime dataFornecida = LocalDateTime.parse(data, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
+
+            if (dataFornecida.isBefore(atual)) {
+                dataFornecida = atual;
+            }
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-            String horaMinuto = atual.format(formatter);
+            String horaMinuto = dataFornecida.format(formatter);
 
-            String horaFormatada = data + "T" + horaMinuto + ":00" + "-03:00";
+            String horaFormatada = dataFornecida.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "T" + horaMinuto + ":00-03:00";
 
             return horaFormatada;
         } catch (Exception e) {
-            logger.log(Level.WARNING, "Ocorreu um erro no método converterData().",e);
+            logger.log(Level.WARNING, "Ocorreu um erro no método converterData().", e);
         }
         // Como o queryParam pode ser vazio, não tem problema.
         return "";
