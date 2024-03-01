@@ -12,6 +12,7 @@ import com.jipe.vivaupe.dto.EventoDTO;
 import lombok.experimental.UtilityClass;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
@@ -33,25 +34,25 @@ public class Util {
 
     public String converterData(String data) {
         try {
-            LocalDateTime atual = LocalDateTime.now();
             LocalDateTime dataFornecida = LocalDateTime.parse(data, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
 
-            if (dataFornecida.isBefore(atual)) {
-                dataFornecida = atual;
-            }
+            int hora = dataFornecida.getHour();
+            int minuto = dataFornecida.getMinute();
+
+            LocalDateTime dataComHoraFornecida = LocalDateTime.of(dataFornecida.toLocalDate(), LocalTime.of(hora, minuto));
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-            String horaMinuto = dataFornecida.format(formatter);
+            String horaMinuto = dataComHoraFornecida.format(formatter);
 
-            String horaFormatada = dataFornecida.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "T" + horaMinuto + ":00-03:00";
+            String horaFormatada = dataComHoraFornecida.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "T" + horaMinuto + ":00-03:00";
 
             return horaFormatada;
         } catch (Exception e) {
             logger.log(Level.WARNING, "Ocorreu um erro no método converterData().", e);
         }
-        // Como o queryParam pode ser vazio, não tem problema.
         return "";
     }
+
 
     public List<EventoDTO> converterParaDto(String json) {
         ObjectMapper objectMapper = new ObjectMapper();
