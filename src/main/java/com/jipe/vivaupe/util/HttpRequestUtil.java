@@ -17,10 +17,11 @@ import java.util.logging.Logger;
 @UtilityClass
 public class HttpRequestUtil {
 
+    private static final String API_KEY = System.getenv("API_KEY");
     private static final Logger logger = Logger.getLogger(HttpRequestUtil.class.getName());
     private static final String URL = "https://www.googleapis.com/calendar/v3/calendars/" +
             "c_b1beca7a002c4b4065fd6fd4b34d45c0cdd2248a0dd075be338604d565f4c506@group.calendar.google.com/" +
-            "events?key=AIzaSyB1qRSThLWj1gdX3KaI7pPzdNwHZCre3bA";
+            "events?key=" + API_KEY;
     private HttpGet request = new HttpGet();
     private final CloseableHttpClient httpClient = HttpClients.createDefault();
 
@@ -34,7 +35,7 @@ public class HttpRequestUtil {
 
             List<EventoDTO> eventos = Util.converterParaDto(resultado);
 
-            System.out.println(resultado);
+            logger.log(Level.INFO, resultado);
 
             return eventos;
         } catch (Exception e) {

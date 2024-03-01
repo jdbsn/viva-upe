@@ -12,7 +12,6 @@ import com.jipe.vivaupe.dto.EventoDTO;
 import lombok.experimental.UtilityClass;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
@@ -33,30 +32,30 @@ public class Util {
     }
 
     public String converterData(String data) {
+        String horaMinuto = "";
+
         try {
-            LocalDateTime dataFornecida = LocalDateTime.parse(data, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
+            LocalDateTime atual = LocalDateTime.now();
+            LocalDateTime dataFornecida = LocalDateTime.parse(data + "T00:00:00",
+                    DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss"));
 
-            int hora = dataFornecida.getHour();
-            int minuto = dataFornecida.getMinute();
-
-            LocalDateTime dataComHoraFornecida = LocalDateTime.of(dataFornecida.toLocalDate(), LocalTime.of(hora, minuto));
-
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
-            String horaMinuto = dataComHoraFornecida.format(formatter);
-
-            String horaFormatada = dataComHoraFornecida.format(DateTimeFormatter.ofPattern("yyyy-MM-dd")) + "T" + horaMinuto + ":00-03:00";
-
-            return horaFormatada;
+            if(dataFornecida.isAfter(atual)) {
+                horaMinuto = "00:00";
+            } else {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+                horaMinuto = atual.format(formatter);
+            }
         } catch (Exception e) {
             logger.log(Level.WARNING, "Ocorreu um erro no método converterData().", e);
         }
-        return "";
-    }
 
+        return data + "T" + horaMinuto + ":00-03:00";
+    }
 
     public List<EventoDTO> converterParaDto(String json) {
         ObjectMapper objectMapper = new ObjectMapper();
         List<EventoDTO> eventos;
+
         try {
             objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
@@ -73,6 +72,7 @@ public class Util {
         } catch (JsonProcessingException e) {
             logger.log(Level.WARNING, "Ocorreu um erro no método converterParaDto().",e);
         }
+
         return Collections.emptyList();
     }
 

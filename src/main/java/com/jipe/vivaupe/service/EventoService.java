@@ -52,8 +52,6 @@ public class EventoService {
             String nome = "&q=" + events;
             List<EventoDTO> eventos = HttpRequestUtil.fazerRequisicao(nome);
 
-            System.out.println(events);
-
             if (!eventos.isEmpty()){
                 EventoDTO evento = eventos.get(0);
                 return ("O evento: "+ evento.getNome()+ ". Na data: "+ evento.getHora().getHora().substring(0, 10)
