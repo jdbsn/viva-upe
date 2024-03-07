@@ -28,7 +28,7 @@ public class EventoService {
             LocalDate atual = LocalDate.now();
             LocalDate dataFornecida = LocalDate.parse(data);
 
-            String dataFormatada = "&timeMin=" + Util.converterData(data);
+            String dataFormatada = "&maxResults=2&timeMin=" + Util.converterData(data);
 
             if(dataFornecida.isEqual(atual)) {
                 dataFormatada += "&timeMax=" + data + "T23:59:59-03:00";
