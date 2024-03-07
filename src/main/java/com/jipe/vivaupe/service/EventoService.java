@@ -53,6 +53,8 @@ public class EventoService {
         return "Ops, houve algum erro. Tente de novo";
     }
 
+
+    //nome do evento, procurar mais detalhes
     public String detailingEvents(String events){
         try{
             String nome = "&q=" + events.replace(" ", "+");
@@ -62,7 +64,7 @@ public class EventoService {
                 EventoDTO evento = eventos.get(0);
                 return ("O evento: "+ evento.getNome()+ ". Na data: "+ evento.getHora().getHora().substring(0, 10)
                         + ". Possui a seguinte descrição: " + evento.getDescricao());
-            }else{
+            } else{
                 return ("Não encontrei "+ events + " registrado no google Calendar da U P E .");
             }
         } catch (Exception e){

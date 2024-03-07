@@ -17,7 +17,7 @@ public class LaunchRequestHandler implements RequestHandler {
 
     @Override
     public Optional<Response> handle(HandlerInput input) {
-        String resposta = "Bem vindo ao Viva U P E! Funcionando através de uma api Spring boot. ";
+        String resposta = "Bem vindo ao Viva U.P.E. , meu xódó! O que você quer saber por aqui? ";
 
         return input.getResponseBuilder()
                 .withSpeech(resposta)
