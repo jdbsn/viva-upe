@@ -25,10 +25,12 @@ public class Util {
     private static final Logger logger = Logger.getLogger(Util.class.getName());
 
     public Map<String, Slot> pegarSlots(RequestEnvelope envelope) {
-        if (envelope.getRequest() instanceof IntentRequest intentRequest) {
+        if (envelope.getRequest() instanceof IntentRequest) {
+            IntentRequest intentRequest = (IntentRequest) envelope.getRequest();
             return intentRequest.getIntent().getSlots();
+        } else {
+            return Collections.emptyMap();
         }
-        return Collections.emptyMap();
     }
 
     public String converterData(String data) {
