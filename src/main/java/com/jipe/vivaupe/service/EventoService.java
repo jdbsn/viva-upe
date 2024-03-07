@@ -63,7 +63,7 @@ public class EventoService {
             if (!eventos.isEmpty()){
                 EventoDTO evento = eventos.get(0);
                 return ("O evento: "+ evento.getNome()+ ". Na data: "+ evento.getHora().getHora().substring(0, 10)
-                        + ". Possui a seguinte descrição: " + evento.getDescricao());
+                        + " e de " + evento.getHora().getHora().substring(11, 16) + ". Possui a seguinte descrição: " + evento.getDescricao());
             } else{
                 return ("Não encontrei "+ events + " registrado no google Calendar da U P E .");
             }
@@ -72,6 +72,6 @@ public class EventoService {
         }
         return "Ops, houve algum erro. Tente de novo";
     }
-    
+
 
 }
